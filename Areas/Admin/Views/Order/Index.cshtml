@@ -1,0 +1,42 @@
+﻿@model IEnumerable<WebBanHangLapTop.Models.Order>
+
+@{
+    Layout = "AdminLayout";
+}
+
+<h2>Order</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>UserId</th>
+            <th>Order Date</th>
+            <th>Total Price</th>
+            <th>Adress</th>
+            <th>Notes</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                
+                <td>@order.Id</td>
+                <td>@order.UserId</td>
+                <td>@order.OrderDate</td>
+                <td>@order.TotalPrice</td>
+                <td>@order.ShippingAddress</td>
+                <td>@order.Notes</td>
+
+                @*   @foreach (var item in ViewBag.categorys)
+            {
+            if (item.Id == @product.CategoryId)
+            {
+            <td>@item.Name</td>
+            break;
+            }
+            } *@                
+            </tr>
+        }
+    </tbody>
+</table>

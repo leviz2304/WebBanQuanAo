@@ -1,0 +1,30 @@
+﻿@model IEnumerable<WebBanHangLapTop.Models.Category>
+@{
+    Layout = "AdminLayout";
+}
+<h2>Category</h2>
+<a class="btn btn-success" href="/admin/AdminCategory/Add">Add</a> 
+<table class="table">
+    <thead>
+    <tr>
+        <td>Name</td>
+        <td>Actions</td>
+    </tr>
+    </thead>
+    <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+
+                <td>@item.Name</td>
+                <td>
+                    <a class="btn btn-primary" href="/admin/AdminCategory/Edit/@item.Id">Update</a> 
+                    <a class="btn btn-danger" href="/admin/AdminCategory/Delete/@item.Id">Delete</a> 
+                </td>
+            </tr>
+
+            }
+
+    </tbody>
+</table>
+   

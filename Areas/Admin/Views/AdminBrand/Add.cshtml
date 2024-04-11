@@ -1,0 +1,13 @@
+﻿@model WebBanHangLapTop.Models.Brand
+<h1>New category</h1>
+
+<form method="post" asp-action="Add" asp-area="admin" asp-controller="AdminBrand">
+    <div class="form-group">
+        <label asp-for="BrandName">Name</label>
+        <input asp-for="BrandName" class="form-control" />
+        <span asp-validation-for="BrandName" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-outline-info">Create</button>
+</form>
+

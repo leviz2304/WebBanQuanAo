@@ -1,0 +1,17 @@
+﻿@model WebBanHangLapTop.Models.Category
+
+@{
+    Layout = "AdminLayout";
+}
+<body>
+    <h3>Are you sure you want to delete this?</h3>
+    <div>
+        <h4>Category</h4>
+        <form asp-action="Delete" asp-area="admin" asp-controller="AdminBrand" method="post">
+            <input type="hidden" asp-for="Id" />
+            <p>Are you sure you want to delete @Model.Name?</p>
+
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+    </div>
+</body>

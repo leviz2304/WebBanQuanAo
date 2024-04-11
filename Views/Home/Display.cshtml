@@ -1,0 +1,36 @@
+﻿@model WebBanHangLapTop.Models.Product
+
+@{
+    Layout = "_Layout";
+}
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="product-image">
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <img src="@Model.ImageUrl" class="img-fluid" alt="Product Image" />
+                }
+                <div class="row mt-2">
+                    @foreach (var item in ViewBag.images)
+                    {
+                        <div class="col-3">
+                            <img src="@item.Url" class="img-thumbnail" alt="Product Image" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="product-info">
+                <h2>@Model.Name</h2>
+                <h3>Price: @Model.Price</h3>
+                <p>@Model.Description</p>
+                <!-- Add the size, quantity, and buttons as per your UI design here -->
+            </div>
+        </div>
+    </div>
+</div>

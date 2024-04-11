@@ -1,0 +1,122 @@
+﻿@model ShoppingCart
+@* 
+<h2>Your Cart</h2>
+<table class="table table-hover">
+    <thead>
+        <tr> 
+            <th scope="col" class="text-center">Description</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col">Total</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td class="d-flex justify-content-center align-items-center">
+                    <img src="@item.ImageUrl" class="card-img-top" alt="..." style="width: 100px; height: 100px;margin-right:20px">
+                    @item.Name
+                </td>
+                <td>@item.Quantity</td>
+                <td>@item.Price</td>
+                <td>@(item.Price * item.Quantity)</td>
+                <td>
+                    <a asp-action="RemoveFromCart" asp-route-productId="@item.ProductId" class="btn btn-danger">Remove</a>
+                </td>
+            </tr>
+        }
+        <tr>
+            <td colspan="4" class="text-right"><strong>Total:</strong></td>
+            <td><strong>@Model.Items.Sum(i => i.Price * i.Quantity)</strong></td>
+        </tr>
+    </tbody>
+</table>
+<div class="text-right">
+    <a asp-action="Checkout" class="btn btn-primary">Checkout</a>
+</div>
+<div class="text-right">
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Back</a>
+</div> *@
+
+<h2 class="text-center my-4">My Shopping Cart</h2>
+
+<div class="container">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr> 
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Remove</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td class="d-flex align-items-center justify-content-start">
+                            <img src="@item.ImageUrl" class="img-thumbnail mr-2" alt="..." style="width: 80px; height: 80px;">
+                            <div>
+                                <div>@item.Name</div>
+                                <small>Product Code: @item.ProductId</small>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="updateQuantity('@item.ProductId', -1)">-</button>
+                                <input type="text" name="items[@item.ProductId].Quantity" id="quantity-@item.ProductId" class="form-control text-center" value="@item.Quantity" style="max-width: 60px;" readonly>
+                                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="updateQuantity('@item.ProductId', 1)">+</button>
+                            </div>
+                        </td>
+                        <td>
+                            <a asp-action="RemoveFromCart" asp-route-productId="@item.ProductId" class="btn btn-danger">Remove</a>
+                        </td>
+                        <td>VND @item.Price</td>
+                    </tr>
+                }
+            </tbody>
+            <tr>
+                <td colspan="3"></td>
+                <td class="text-right">Subtotal</td>
+                <td>VND @Model.Items.Sum(i => i.Price * i.Quantity)</td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+                <td class="text-right">Discount</td>
+                <td>VND 0.00</td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+                <td class="text-right">Delivery</td>
+                <td>VND 0.00</td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+                <td class="text-right"><strong>Total</strong></td>
+                <td><strong>VND @Model.Items.Sum(i => i.Price * i.Quantity)</strong></td>
+            </tr>
+        </table>
+    </div>
+  
+    <div>
+        <a type="submit" asp-action="Checkout" class="btn btn-primary">Checkout</a>
+        <a type="submit" asp-action="UpdateQuantity" class="btn btn-primary">Update Quantity</a>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Back</a>
+
+    </div>
+ 
+</div>
+@section Scripts {
+    <script>
+        function updateQuantity(productId, delta) {
+            var quantityField = document.getElementById('quantity-' + productId);
+            var currentQuantity = parseInt(quantityField.value);
+            if (!isNaN(currentQuantity) && currentQuantity + delta >= 0) {
+                quantityField.value = currentQuantity + delta;
+            }
+        }
+    </script>
+}
