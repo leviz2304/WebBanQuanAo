@@ -19,8 +19,9 @@ namespace WebBanHangLapTop.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var products=await _productRepository.GetAllAsync();
-            return View(products);
+            
+            var topPicks = await _productRepository.GetTopPicksAsync(4); 
+            return View(topPicks);
         }
         public async Task<IActionResult> Display(int id)
         {

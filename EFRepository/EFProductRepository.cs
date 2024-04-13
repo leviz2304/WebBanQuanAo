@@ -77,8 +77,32 @@ public class EFProductRepository : IProductRepository
         int count = _context.Products.Where(p => p.CategoryId==id).Count();
         return count;
     }
+    public async Task<IEnumerable<Product>> GetTopPicksAsync(int take)
+    {
+        var topProductIds = await _context.OrderDetails
+            .GroupBy(od => od.ProductId)
+            .Select(g => new { ProductId = g.Key, TotalQuantity = g.Sum(od => od.Quantity) })
+            .OrderByDescending(g => g.TotalQuantity)
+            .Take(take)
+            .ToListAsync();
 
-	public async Task<IEnumerable<int>> GetListCountCategory()
+        var topIds = topProductIds.Select(g => g.ProductId).ToList();
+
+        var topProducts = await _context.Products
+            .Where(p => topIds.Contains(p.Id))
+            .ToListAsync();
+
+        var orderedTopProducts = topIds.Join(topProducts, id => id, p => p.Id, (id, p) => p);
+
+        return orderedTopProducts;
+    }
+    public async Task<IEnumerable<Product>> SearchAsync(string query)
+    {
+        return await _context.Products
+                             .Where(p => p.Name.Contains(query) || p.Description.Contains(query))
+                             .ToListAsync();
+    }
+    public async Task<IEnumerable<int>> GetListCountCategory()
 	{
         List<int> ints = new List<int>();
         foreach (var category in _context.Categories)

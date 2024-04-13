@@ -34,11 +34,21 @@ namespace WebBanHangLapTop.Controllers
 		}
 		public async Task< IActionResult> Index()
 		{
-            var product1 = await _productRepository.GetAllAsync();
-            ViewBag.categorys = await _categoryRepository.GetAllAsync();
-            
-            return View(product1);
-		}
+            var products = await _productRepository.GetAllAsync();
+            var categories = await _categoryRepository.GetAllAsync();
+            var brands = await _brandRepository.GetAllAsync();
+
+            // Use a ViewModel to pass all necessary data to the view
+            var viewModel = new HomePageViewModel
+            {
+                Products = products,
+                Categories = categories,
+                Brands = brands
+            };
+
+            return View(viewModel);
+        
+    }
         // Hiển thị form thêm sản phẩm mới
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddAsync()
@@ -147,14 +157,23 @@ namespace WebBanHangLapTop.Controllers
 			return RedirectToAction(nameof(Index));
 		}
 
+        public async Task<IActionResult> Search(string searchQuery)
+        {
+            if (string.IsNullOrWhiteSpace(searchQuery))
+            {
+                return View("Index");
+            }
 
-		private async Task<string> SaveImage(IFormFile image)
+            var searchResults = await _productRepository.SearchAsync(searchQuery);
+            return View(searchResults);
+        }
+        private async Task<string> SaveImage(IFormFile image)
 		{
 			var savePath = Path.Combine("wwwroot/Image", image.FileName);
 			using(var fileStream = new FileStream(savePath, FileMode.Create))
 			{
 				await image.CopyToAsync(fileStream);
-			}
+			} 
 			return "/Image/" + image.FileName;
 		}
 

@@ -1,3 +1,17 @@
 ﻿.carousel-item {
     transition: transform 0.5s ease, opacity 0.5s ease;
 }
+.section-title {
+    margin-bottom: 0; /* Removes margin from the bottom of the title if needed */
+}
+
+.top-picks .row > .col-auto:first-child {
+    padding-right: 15px; /* Adds some space between the title and the button */
+}
+
+.top-picks .btn-outline-secondary {
+    /* Styling for 'More Clothes' button to match the design */
+    padding: .375rem .75rem;
+    border: 1px solid #ccc;
+    border-radius: .25rem;
+}

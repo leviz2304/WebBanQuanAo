@@ -37,16 +37,15 @@
                     <!-- Authentication Links -->
                     @Html.Partial("_LoginPartial")
                 </ul>
-
-                <!-- Right-aligned search form outside of the collapse on desktop -->
-                <form class="d-none d-lg-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <form asp-controller="Product" asp-action="Search" method="get" class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search products" aria-label="Search" name="searchQuery">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
-                <button class="btn btn-outline-dark" type="submit" style="margin-left: 10px;">
+
+                <a class="btn btn-outline-dark" type="submit" style="margin-left: 10px;" asp-action="Index" asp-controller="ShoppingCart">
                     <i class="bi-cart-fill me-1"></i>
                     Cart
-                </button>
+                </a>
                 
             </div>
         </nav>

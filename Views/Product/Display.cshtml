@@ -1,20 +1,48 @@
 ﻿@model WebBanHangLapTop.Models.Product
 
-<h2>Name:@Model.Name</h2>
-<div>
-	<h3>Price: @Model.Price</h3>
-	<h4>Description:@Model.Description</h4>
-	@if (!string.IsNullOrEmpty(Model.ImageUrl))
-	{
-		<h1>Ảnh chính</h1>
-		<img src="@Model.ImageUrl" alt="Product Image" style="max-width:
-	200px;" />
-	}
-     <h1>List ảnh</h1>
-		@foreach (var item in ViewBag.images)
-		{
-			<img src="@item.Url" alt="Product Image" style="max-width:
-		200px; height:300px;" class="mx-3" />
-		}	
+@{
+    Layout = "_Layout";
+}
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="product-image">
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <img src="@Model.ImageUrl" class="img-fluid" alt="Product Image" style="height:500px" />
+                }
+                <div class="row mt-2">
+                    @foreach (var item in ViewBag.images)
+                    {
+                        <div class="col-3">
+                            <img src="@item.Url" class="img-thumbnail" alt="Product Image"  />
+                        </div>
+                    }
+
+                </div>
+              
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="product-info">
+                <h2>@Model.Name</h2>
+                <h3>Price: @Model.Price</h3>
+                <p>@Model.Description</p>
+                <form asp-action="AddToCart" asp-controller="ShoppingCart" method="post">
+                    <input type="hidden" name="productId" value="@Model.Id" />
+                    <div class="form-group">
+                        <label for="quantity">Quantity:</label>
+                        <input type="number" id="quantity" name="quantity" class="form-control" value="1" min="1" />
+                    </div>
+                    <button type="submit" class="btn btn-outline-dark">
+                        <i class="bi-cart-fill me-1"></i> Add to Cart
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </div>
 </div>
-<a class="btn btn-primary mt-2" asp-action="Index">Back to List</a>
