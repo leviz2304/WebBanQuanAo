@@ -96,11 +96,29 @@ public class EFProductRepository : IProductRepository
 
         return orderedTopProducts;
     }
+  
     public async Task<IEnumerable<Product>> SearchAsync(string query)
     {
         return await _context.Products
                              .Where(p => p.Name.Contains(query) || p.Description.Contains(query))
                              .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Product>> GetFilteredAsync(int? categoryId, int? brandId)
+    {
+        IQueryable<Product> query = _context.Products;
+
+        if (categoryId.HasValue)
+        {
+            query = query.Where(p => p.CategoryId == categoryId.Value);
+        }
+
+        if (brandId.HasValue)
+        {
+            query = query.Where(p => p.BrandId == brandId.Value);
+        }
+
+        return await query.ToListAsync();
     }
     public async Task<IEnumerable<int>> GetListCountCategory()
 	{

@@ -8,13 +8,22 @@
         <!-- User Dropdown Menu -->
         <li class="nav-item dropdown">
             <a id="userMenu" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa fa-user" aria-hidden="true"></i>
+                <i class="fa fa-user" aria-hidden="true"></i> 
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-                <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">Hello @UserManager.GetUserName(User)!</a></li>
                 <li>
-                    <form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" method="post">
-                        <button type="submit" class="dropdown-item">Logout</button>
+                    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">
+                        Manage Account
+                    </a>
+                </li>
+                <a class="dropdown-item" asp-action="DisplayOrder" asp-controller="Order">
+                    Đơn Hàng Đã Mua
+                </a>
+                <li>
+                    <!-- Logout Form -->
+                    <form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" method="post" class="dropdown-item">
+                        <input type="hidden" name="returnUrl" value="@Url.Action("Index", "Home", new { area = "" })" />
+                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">Logout</button>
                     </form>
                 </li>
             </ul>
@@ -25,17 +34,15 @@
         <!-- Login and Register Links -->
         <li class="nav-item">
             <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">
-                Register
-                <i class="fa fa-user-plus" aria-hidden="true"></i>
-
+                Register <i class="fa fa-user-plus" aria-hidden="true"></i>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">
-                Login
-                <i class="fa fa-sign-in" aria-hidden="true"></i>
+                Login <i class="fa fa-sign-in" aria-hidden="true"></i>
             </a>
         </li>
     }
 </ul>
+
 

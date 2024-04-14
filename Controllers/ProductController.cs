@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using WebBanHangLapTop.Areas.Admin.Models;
 using WebBanHangLapTop.IRepository;
 using WebBanHangLapTop.Models;
 using WebBanHangLapTop.Repository;
@@ -32,25 +33,37 @@ namespace WebBanHangLapTop.Controllers
 		{
 			return View();	
 		}
-		public async Task< IActionResult> Index()
+		public async Task< IActionResult> Index(string searchQuery, int? categoryId, int? brandId)
 		{
-            var products = await _productRepository.GetAllAsync();
+            IEnumerable<Product> products;
+
+            if (!string.IsNullOrWhiteSpace(searchQuery))
+            {
+                products = await _productRepository.SearchAsync(searchQuery);
+            }
+            else
+            {
+                products = await _productRepository.GetFilteredAsync(categoryId, brandId);
+            }
             var categories = await _categoryRepository.GetAllAsync();
             var brands = await _brandRepository.GetAllAsync();
 
-            // Use a ViewModel to pass all necessary data to the view
             var viewModel = new HomePageViewModel
             {
                 Products = products,
                 Categories = categories,
-                Brands = brands
+                Brands = brands,
+                SearchQuery = searchQuery,
+                SelectedCategoryId = categoryId,
+                SelectedBrandId = brandId
             };
 
             return View(viewModel);
-        
-    }
-        // Hiển thị form thêm sản phẩm mới
-        [Authorize(Roles = "Admin")]
+        }
+
+
+    // Hiển thị form thêm sản phẩm mới
+    [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> AddAsync()
 		{
 
@@ -157,16 +170,9 @@ namespace WebBanHangLapTop.Controllers
 			return RedirectToAction(nameof(Index));
 		}
 
-        public async Task<IActionResult> Search(string searchQuery)
-        {
-            if (string.IsNullOrWhiteSpace(searchQuery))
-            {
-                return View("Index");
-            }
+     
 
-            var searchResults = await _productRepository.SearchAsync(searchQuery);
-            return View(searchResults);
-        }
+
         private async Task<string> SaveImage(IFormFile image)
 		{
 			var savePath = Path.Combine("wwwroot/Image", image.FileName);

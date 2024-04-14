@@ -1,0 +1,19 @@
+﻿@model IEnumerable<WebBanHangLapTop.Models.Product>
+
+@if (!Model.Any())
+{
+    <div>No products found.</div>
+}
+else
+{
+    foreach (var product in Model)
+    {
+        <div class="search-result-item">
+            <img src="@product.ImageUrl" alt="@product.Name" />
+            <div class="search-result-detail">
+                <h6>@product.Name</h6>
+                <p>Price: @product.Price</p>
+            </div>
+        </div>
+    }
+}

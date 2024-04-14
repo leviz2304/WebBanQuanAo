@@ -66,9 +66,7 @@
                         </td>
                         <td>
                             <div class="d-flex align-items-center">
-                                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="updateQuantity('@item.ProductId', -1)">-</button>
                                 <input type="text" name="items[@item.ProductId].Quantity" id="quantity-@item.ProductId" class="form-control text-center" value="@item.Quantity" style="max-width: 60px;" readonly>
-                                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="updateQuantity('@item.ProductId', 1)">+</button>
                             </div>
                         </td>
                         <td>
@@ -103,20 +101,8 @@
   
     <div>
         <a type="submit" asp-action="Checkout" class="btn btn-primary">Checkout</a>
-        <a type="submit" asp-action="UpdateQuantity" class="btn btn-primary">Update Quantity</a>
         <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Back</a>
 
     </div>
  
 </div>
-@section Scripts {
-    <script>
-        function updateQuantity(productId, delta) {
-            var quantityField = document.getElementById('quantity-' + productId);
-            var currentQuantity = parseInt(quantityField.value);
-            if (!isNaN(currentQuantity) && currentQuantity + delta >= 0) {
-                quantityField.value = currentQuantity + delta;
-            }
-        }
-    </script>
-}

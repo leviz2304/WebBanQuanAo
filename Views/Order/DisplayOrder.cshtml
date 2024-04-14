@@ -1,0 +1,37 @@
+﻿@model IEnumerable<WebBanHangLapTop.Models.Order>
+
+<h1 class="text-center">Hóa Đơn Đã Mua</h1>
+<div class="orders-container">
+    @foreach (var order in Model)
+    {
+        <div class="order-card mb-3 border border-primary rounded ">
+            
+            @foreach (var detail in order.OrderDetails)
+            {
+                <div class="order-item d-flex justify-content-between align-items-center p-3 ">
+                    <div class="order-image">
+                        <img src="@detail.Product.ImageUrl" alt="@detail.Product.Name" style="width: 80px; height: auto;">
+                    </div>
+                    <div class="order-details">
+                        <div class="product-name">@detail.Product.Name</div>
+                        <div class="product-quantity">Số lượng: @detail.Quantity</div>
+                    </div>
+                    <div class="order-price">
+                        @detail.Price.ToString("C")
+                    </div>
+                </div>
+            }
+            <div class="order-footer d-flex justify-content-between p-3">
+                <span>Thành tiền:</span>
+                <span class="order-total">@order.TotalPrice.ToString("C")</span>
+            </div>
+            <div class="order-actions p-3">
+                <button class="btn btn-outline-danger btn-sm">Mua Lại</button>
+                <button class="btn btn-outline-secondary btn-sm">Liên Hệ Người Bán</button>
+            </div>
+        </div>
+    }
+</div>
+@section Styles {
+    <link href="~/Order/style.css" rel="stylesheet" type="text/css" />
+}

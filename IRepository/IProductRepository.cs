@@ -23,5 +23,7 @@ namespace WebBanHangLapTop.Repository
         Task<IEnumerable<int>> GetListCountCategory();
         Task<IEnumerable<Product>> GetTopPicksAsync(int take);
         Task<IEnumerable<Product>> SearchAsync(string query);
+        Task<IEnumerable<Product>> GetFilteredAsync(int? categoryId, int? brandId);
+
     }
 }

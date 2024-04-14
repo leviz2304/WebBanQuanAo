@@ -7,39 +7,40 @@
     <div class="row">
         <!-- Sidebar for Filters -->
         <div class="col-md-3">
-            <form method="get" asp-controller="Product" asp-action="Filter">
-                <!-- Categories and Brands checkboxes as shown above -->
-                <h4>Categories</h4>
-                @if (Model.Categories != null)
-                {
-                    foreach (var category in Model.Categories)
+            <form method="get" asp-action="Index" class="filter-form">
+                <input type="hidden" name="searchQuery" value="@Model.SearchQuery" />
+
+                <!-- Categories -->
+                <h5>Categories</h5>
+                <div class="list-group">
+                    @foreach (var category in Model.Categories)
                     {
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="@category.Id" id="category-@category.Id">
-                            <label class="form-check-label" for="category-@category.Id">
-                                @category.Name
-                            </label>
-                        </div>
+                        <label class="list-group-item">
+                            <input class="form-check-input me-1" type="radio" name="categoryId" value="@category.Id"
+                            @(Model.SelectedCategoryId == category.Id ? "checked" : "")>
+                            @category.Name
+                        </label>
                     }
-                }
-                else
-                {
-                    <p>No categories available.</p>
-                }
+                </div>
 
                 <!-- Brands -->
-                <h4 class="mt-4">Brand</h4>
-                @foreach (var brand in Model.Brands)
-                {
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="brand-@brand.Id">
-                        <label class="form-check-label" for="brand-@brand.Id">
+                <h5 class="mt-3">Brand</h5>
+                <div class="list-group">
+                    @foreach (var brand in Model.Brands)
+                    {
+                        <label class="list-group-item">
+                            <input class="form-check-input me-1" type="radio" name="brandId" value="@brand.Id"
+                            @(Model.SelectedBrandId == brand.Id ? "checked" : "")>
                             @brand.BrandName
                         </label>
-                    </div>
-                }
+                    }
+                </div>
+                <button type="reset" class="btn btn-secondary mt-3">Reset Filters</button>
                 <button type="submit" class="btn btn-primary mt-3">Apply Filters</button>
             </form>
+
+
+
             <!-- Categories -->
             
         </div>
@@ -66,3 +67,37 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    <script>
+        // Function to handle search and filters
+        function searchAndFilterProducts() {
+            var formData = $('.filter-form').serialize(); // Captures all the form data along with search query and filters
+
+            // AJAX call to update the product list based on the search and filters
+            $.ajax({
+                url: '@Url.Action("Index", "Product")', // Make sure this points to the right URL
+                data: formData, // Sends the form data to the server
+                type: 'GET', // Specifies the HTTP method to use for the request
+                success: function (data) {
+                    $('#productListContainer').html(data);
+                    // Updates the product list with the response
+                },
+
+                error: function (xhr, status, error) {
+                    console.error("Error fetching products: ", error); // Logs errors to the console
+                }
+            });
+        }
+        function clearRadioSelections() {
+            $("input[type='radio']").prop('checked', false);
+        }
+        // Bind the search and filter actions to the searchAndFilterProducts function
+        $(function () {
+            $('#searchBox').on('input', searchAndFilterProducts); // Binds the input event on the search box
+            $('.filter-form input[type=radio]').on('change', searchAndFilterProducts); // Binds the change event on the checkboxes
+            $('button[type="reset"]').click(function () {
+                clearRadioSelections(); 
+            });
+        });
+    </script>
+}

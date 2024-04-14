@@ -24,8 +24,18 @@ productRepository)
         public IActionResult Checkout()
         {
             var cart = HttpContext.Session.GetObjectFromJson<ShoppingCart>("Cart");
-            ViewBag.Cart = cart.Items;
-            return View(new Order());
+            var viewModel = new CheckoutViewModel
+            {
+                Cart = cart,
+                // Initialize any other properties if necessary. For example:
+                FirstName = "", // These should come from the user input or user's data
+                LastName = "",
+                PhoneNumber = "",
+                ShippingAddress = "",
+                Notes = ""
+            };
+
+            return View(viewModel);
         }
 
         

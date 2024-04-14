@@ -15,7 +15,16 @@ namespace WebBanHangLapTop.EFRepository
         {
             return await _context.Orders.ToListAsync();
         }
-      
+       public async Task<IEnumerable<Order>> GetOrdersByUserId(string userId)
+        {
+            return await _context.Orders
+                         .Where(o => o.UserId == userId)
+                         .Include(o => o.OrderDetails)
+                         .ThenInclude(od => od.Product)
+                         .ThenInclude(p => p.Images) // Assuming the Product has a collection of Images
+                         .ToListAsync();
+        }
+
 
     }
 }

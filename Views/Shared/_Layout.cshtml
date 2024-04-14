@@ -13,7 +13,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
+    @RenderSection("Styles", required: false)
 </head>
 <body>
     <header>
@@ -37,7 +37,7 @@
                     <!-- Authentication Links -->
                     @Html.Partial("_LoginPartial")
                 </ul>
-                <form asp-controller="Product" asp-action="Search" method="get" class="d-flex">
+                <form asp-controller="Product" asp-action="Index" method="get" class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Search products" aria-label="Search" name="searchQuery">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>

@@ -1,0 +1,51 @@
+﻿.orders-container {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.order-card {
+    border: 1px solid #dee2e6;
+}
+
+.order-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    color: #495057;
+    font-size: 0.875rem;
+}
+
+.order-footer {
+    border-top: 1px solid #dee2e6;
+    color: #495057;
+    font-weight: bold;
+}
+
+.order-actions {
+    border-top: 1px solid #dee2e6;
+    text-align: right;
+}
+
+.order-item {
+    border-bottom: 1px solid #dee2e6;
+}
+
+    .order-item:last-child {
+        border-bottom: none;
+    }
+
+.product-name {
+    font-size: 0.875rem;
+    color: #212529;
+}
+
+.product-quantity,
+.product-return {
+    font-size: 0.75rem;
+    color: #6c757d;
+}
+
+.order-price {
+    color: #dc3545;
+    font-weight: bold;
+}
