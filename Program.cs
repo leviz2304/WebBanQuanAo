@@ -1,9 +1,13 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
+using Umbraco.Core;
 using WebBanHangLapTop.EFRepository;
 using WebBanHangLapTop.IRepository;
 using WebBanHangLapTop.Models;
 using WebBanHangLapTop.Repository;
+
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -37,6 +41,7 @@ builder.Services.AddScoped<IProductRepository, EFProductRepository>();
 builder.Services.AddScoped<IOrder, EFOrder>();
 
 builder.Services.AddScoped<IBrand, EFBrandRepository>();
+
 
 
 var app = builder.Build();
